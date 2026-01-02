@@ -1,18 +1,89 @@
-# React + Vite
+# React useState – State Update & Functional Update Explained
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is created to clearly explain **why React state does not update immediately** and **what benefits you get by using Functional State Updates**.
 
-Currently, two official plugins are available:
+It is a **beginner-friendly tutorial and learning-focused demo project**, designed to help developers understand one of the most common React confusions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🎯 Learning Objectives
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+By exploring this project, you will learn:
 
-Note: This will impact Vite dev & build performances.
+- Why `useState` does not update state immediately
+- Why `console.log(state)` often shows the previous value
+- How React schedules state updates and re-renders the UI
+- The difference between normal state updates and functional state updates
+- When and why functional state updates should be used
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧠 Core Concept
+
+In React, state updates are **scheduled**, not applied instantly.
+
+When you call a state updater function like `setState` or `setCount`:
+
+- React does not change the state value immediately
+- The update is queued and processed during the next render cycle
+- The UI is re-rendered with the updated state
+
+Because of this behavior, accessing state immediately after calling a setter returns the **previous render’s snapshot**.
+
+---
+
+## 🧪 Demo Explanation
+
+This project demonstrates the concept using **two counters**:
+
+### 1️⃣ Normal State Update
+
+Normal state update directly uses the current state variable.
+
+- The state value represents the snapshot of the current render
+- Multiple updates in the same cycle may cause stale values
+- This approach can lead to unexpected results in complex scenarios
+
+---
+
+### 2️⃣ Functional State Update
+
+Functional state update calculates the new state based on the previous state provided by React.
+
+- React always supplies the latest available state
+- Prevents stale state issues
+- Works reliably with React’s batching behavior
+- Ensures predictable and consistent updates
+
+---
+
+## ⚠️ Important Note
+
+Using functional state update does **not** make state updates synchronous.
+
+- State updates still happen after the render cycle
+- Logging state inside an event handler will still show the old value
+- Functional updates only guarantee **correct value calculation**, not timing
+
+To observe updated state values correctly, use `useEffect`.
+
+---
+
+## ✅ When Should You Use Functional State Update?
+
+You should use functional state updates when:
+
+- The new state depends on the previous state
+- Multiple state updates happen in the same function
+- You are working with asynchronous logic (timers, promises, API calls)
+- You want to avoid bugs caused by React’s batching behavior
+
+🎓 Target Audience
+
+React beginners
+
+JavaScript learners
+
+Developers confused about useState behavior
+
+Anyone preparing for React interviews
